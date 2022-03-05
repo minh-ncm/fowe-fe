@@ -16,19 +16,18 @@ const routerUrls = {
   vision: { index: "/vision" },
 };
 
+const domain = process.env.REACT_APP_API_DOMAIN;
 const apiUrls = {
-  fowe: { disabled: "/api/disabled/" },
-  token: { pair: "/api/token/", refresh: "/api/token/refresh/" },
+  token: { pair: domain + "/token/", refresh: domain + "/token/refresh/" },
   user: {
-    crud: "api/user/crud/",
-    activate: "api/user/activate/",
-    login: "/api/user/login/",
-    logout: "/api/user/logout/",
+    crud: domain + "/user/crud/",
+    activate: domain + "/user/activate/",
+    login: domain + "/user/login/",
+    logout: domain + "/user/logout/",
   },
-  news: "/api/news/",
+  news: domain + "/news/",
   blog: {
-    index: "/api/blog/",
-    crud: "/api/blog/crud/",
+    crud: domain + "/blog/crud/",
   },
 };
 
