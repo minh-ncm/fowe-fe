@@ -16,6 +16,9 @@ const BlogIndex = () => {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(function () {
     fetchBlog();
+    return () => {
+      setData({});
+    };
   }, []);
   function fetchBlog() {
     setIsLoading(true);
@@ -24,10 +27,8 @@ const BlogIndex = () => {
       .then(function (respone) {
         setData(respone.data);
       })
-      .catch(function (error) {})
-      .finally(function () {
-        setIsLoading(false);
-      });
+      .catch()
+      .finally(() => setIsLoading(false));
   }
   function render() {
     if (isLoading) {

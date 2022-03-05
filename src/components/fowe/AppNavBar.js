@@ -18,7 +18,7 @@ const AppNavBar = () => {
     <>
       <AppBar
         position="sticky"
-        sx={{ backgroundColor: color.background.secondary }}
+        sx={{ backgroundColor: color.background.primary }}
       >
         <Toolbar>
           <section style={{ flexGrow: "1" }}>
@@ -55,7 +55,7 @@ const AppNavBar = () => {
                   Login
                 </Button>
                 <Button component={RouterLink} to={routerUrls.user.register}>
-                  sign up
+                  register
                 </Button>
               </>
             )}

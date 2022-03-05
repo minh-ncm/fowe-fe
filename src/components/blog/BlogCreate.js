@@ -2,6 +2,8 @@ import React, { useReducer, useEffect, useRef } from "react";
 
 import { useNavigate } from "react-router-dom";
 
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -112,129 +114,137 @@ const BlogCreate = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          backgroundColor: color.background.primary,
-          position: "fixed",
-          width: "100%",
-          height: "100%",
-          padding: "3rem 5rem",
-        }}
+      <ThemeProvider
+        theme={(theme) =>
+          createTheme({
+            ...theme,
+            palette: {
+              ...theme.palette,
+              background: {
+                ...theme.palette.background,
+                default: color.background.secondary,
+              },
+            },
+          })
+        }
       >
+        <CssBaseline />
         <Container>
-          <Card
-            sx={{
-              width: "100%",
-              backgroundColor: color.background.secondary,
-              padding: "1.5rem",
-            }}
-          >
-            <CardContent>
-              <TextField
-                fullWidth
-                variant="standard"
-                label="Title"
-                value={blogState.title}
-                onChange={(e) =>
-                  dispatch({ type: "SET_TITLE", payload: e.target.value })
-                }
-                inputProps={{ style: { fontSize: "2rem" } }}
-                InputLabelProps={{ style: { fontSize: "2rem" } }}
-                sx={{ padding: "1rem" }}
-              />
-              <Box sx={{ padding: "1rem" }}>
-                <Typography
-                  variant="p"
-                  ref={blogPreviewRef}
-                  sx={{ fontSize: "1rem" }}
-                ></Typography>
-              </Box>
+          <form>
+            <Card
+              sx={{
+                width: "100%",
+                padding: "1.5rem",
+                marginTop: "3rem",
+              }}
+            >
+              <CardContent>
+                <TextField
+                  fullWidth
+                  variant="standard"
+                  label="Title"
+                  value={blogState.title}
+                  onChange={(e) =>
+                    dispatch({ type: "SET_TITLE", payload: e.target.value })
+                  }
+                  inputProps={{ style: { fontSize: "2rem" } }}
+                  InputLabelProps={{ style: { fontSize: "2rem" } }}
+                  sx={{ padding: "1rem" }}
+                />
+                <Box sx={{ padding: "1rem" }}>
+                  <Typography
+                    variant="p"
+                    ref={blogPreviewRef}
+                    sx={{ fontSize: "1rem" }}
+                  ></Typography>
+                </Box>
 
-              <Grid container>
-                <Grid item xs={2}>
-                  <ButtonGroup orientation="vertical">
-                    <label style={{ width: "100%" }}>
-                      <input
-                        type="file"
-                        accept="*/image"
-                        style={{ display: "none" }}
-                        onClick={(e) => {
-                          dispatch({
-                            type: "INSERT_THUMBNAIL",
-                            payload: e.target.files[0],
-                          });
-                        }}
-                      />
-                      <Button component="span" variant="standard">
-                        thumbnail
-                      </Button>
-                    </label>
-                    <label>
-                      <input
-                        multiple
-                        type="file"
-                        accept="*/image"
-                        style={{ display: "none" }}
-                        onClick={(e) => {
-                          dispatch({
-                            type: "INSERT_IMAGES",
-                            payload: e.target.files,
-                          });
-                        }}
-                      />
-                      <Button component="span" variant="standard">
-                        images
-                      </Button>
-                    </label>
-                  </ButtonGroup>
-                </Grid>
-                <Grid item xs={10}>
-                  <TextField
-                    multiline
-                    variant="standard"
-                    placeholder="Write paragraph's text here"
-                    value={blogState.text}
-                    inputProps={{
-                      style: { height: "12rem", fontSize: "1.25rem" },
-                    }}
-                    sx={{ width: "100%" }}
-                    onChange={(e) =>
-                      dispatch({
-                        type: "CHANGE_TEXT",
-                        payload: e.target.value,
-                      })
-                    }
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        if (blogState.text.trim() !== "") {
-                          dispatch({ type: "INSERT_TEXT" });
-                        } else {
-                          e.preventDefault();
+                <Grid container>
+                  <Grid item xs={2}>
+                    <ButtonGroup orientation="vertical">
+                      <label style={{ width: "100%" }}>
+                        <input
+                          type="file"
+                          accept="*/image"
+                          style={{ display: "none" }}
+                          onClick={(e) => {
+                            dispatch({
+                              type: "INSERT_THUMBNAIL",
+                              payload: e.target.files[0],
+                            });
+                          }}
+                        />
+                        <Button component="span" variant="standard">
+                          thumbnail
+                        </Button>
+                      </label>
+                      <label>
+                        <input
+                          multiple
+                          type="file"
+                          accept="*/image"
+                          style={{ display: "none" }}
+                          onClick={(e) => {
+                            dispatch({
+                              type: "INSERT_IMAGES",
+                              payload: e.target.files,
+                            });
+                          }}
+                        />
+                        <Button component="span" variant="standard">
+                          images
+                        </Button>
+                      </label>
+                    </ButtonGroup>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <TextField
+                      multiline
+                      variant="standard"
+                      placeholder="Write paragraph's text here"
+                      value={blogState.text}
+                      inputProps={{
+                        style: { height: "12rem", fontSize: "1.25rem" },
+                      }}
+                      sx={{ width: "100%" }}
+                      onChange={(e) =>
+                        dispatch({
+                          type: "CHANGE_TEXT",
+                          payload: e.target.value,
+                        })
+                      }
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          if (blogState.text.trim() !== "") {
+                            dispatch({ type: "INSERT_TEXT" });
+                          } else {
+                            e.preventDefault();
+                          }
                         }
-                      }
-                    }}
-                  />
-                  <Button
-                    variant="contained"
-                    onClick={(e) => {
-                      if (blogState.text !== "") {
-                        dispatch({ type: "INSERT_TEXT" });
-                      }
-                    }}
-                  >
-                    Insert
-                  </Button>
+                      }}
+                    />
+                    <Button
+                      variant="contained"
+                      onClick={(e) => {
+                        if (blogState.text !== "") {
+                          dispatch({ type: "INSERT_TEXT" });
+                        }
+                      }}
+                    >
+                      Insert
+                    </Button>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </CardContent>
-            <CardActions>
-              <Button variant="contained" onClick={(e) => handleSubmit(e)}>
-                create blog
-              </Button>
-            </CardActions>
-          </Card>
+              </CardContent>
+              <CardActions>
+                <Button variant="contained" onClick={(e) => handleSubmit(e)}>
+                  create blog
+                </Button>
+              </CardActions>
+            </Card>
+          </form>
         </Container>
-      </Box>
+      </ThemeProvider>
     </>
   );
 };

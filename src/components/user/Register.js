@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -12,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import { apiUrls, routerUrls } from "../../settings/urls";
 import { axiosInstance } from "../../settings/axios";
 import { color } from "../../settings/color";
+
+import ErrorMessage from "./ErrorMessage";
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -23,6 +26,7 @@ function Register() {
 
   // Handle submit
   function handleSubmit(e) {
+    e.preventDefault();
     var msg = [];
     if (username.trim() === "") {
       msg.push("Can't leave username empty");
@@ -74,90 +78,77 @@ function Register() {
 
   return (
     <>
-      <Box
-        sx={{
-          position: "fixed",
-          height: "100%",
-          width: "100%",
-          backgroundColor: color.background.alt1,
-        }}
+      <ThemeProvider
+        theme={(theme) =>
+          createTheme({
+            ...theme,
+            palette: {
+              ...theme.palette,
+              background: {
+                ...theme.palette.background,
+                default: color.background.secondary,
+              },
+            },
+          })
+        }
       >
-        <Card
-          sx={{
-            backgroundColor: color.background.secondary,
-            width: "30rem",
-            padding: "1.8rem",
-            borderRadius: "0.4rem",
-            mx: "auto",
-            marginTop: "6rem",
-          }}
-        >
-          <CardContent>
-            <Typography variant="h5">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea,
-              consequuntur.
-            </Typography>
-            <Box
-              sx={{
-                color: color.error.primary,
-                margin: "1.5rem 0",
-                fontWeight: "500",
-              }}
-            >
-              {errorMessage.map((item, idx) => {
-                return (
-                  <Typography key={idx} sx={{ margin: "0.3rem" }}>
-                    {item.toUpperCase()}
-                  </Typography>
-                );
-              })}
-            </Box>
-            <TextField
-              type="text"
-              placeholder="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              sx={{ width: "100%", marginBottom: "1rem" }}
-            />
-            <TextField
-              type="email"
-              placeholder="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              sx={{ width: "100%", marginBottom: "1rem" }}
-            />
-            <TextField
-              type="password"
-              placeholder="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              sx={{ width: "100%", marginBottom: "1rem" }}
-            />
-            <TextField
-              type="password"
-              placeholder="confirm password"
-              value={passwordConfirm}
-              onChange={(e) => setPasswordConfirm(e.target.value)}
-              sx={{ width: "100%", marginBottom: "1rem" }}
-            />
+        <CssBaseline />
+        <form onSubmit={handleSubmit}>
+          <Card
+            sx={{
+              width: "30rem",
+              padding: "1.8rem",
+              borderRadius: "0",
+              mx: "auto",
+              marginTop: "6rem",
+            }}
+          >
+            <CardContent>
+              <Typography align="center" variant="h3">
+                Register
+              </Typography>
+              <ErrorMessage messages={errorMessage} />
+              <TextField
+                type="text"
+                placeholder="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                sx={{ width: "100%", marginBottom: "1rem" }}
+              />
+              <TextField
+                type="email"
+                placeholder="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                sx={{ width: "100%", marginBottom: "1rem" }}
+              />
+              <TextField
+                type="password"
+                placeholder="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                sx={{ width: "100%", marginBottom: "1rem" }}
+              />
+              <TextField
+                type="password"
+                placeholder="confirm password"
+                value={passwordConfirm}
+                onChange={(e) => setPasswordConfirm(e.target.value)}
+                sx={{ width: "100%", marginBottom: "1rem" }}
+              />
 
-            <Button
-              variant="contained"
-              onClick={(e) => {
-                handleSubmit(e);
-              }}
-              sx={{ width: "100%" }}
-            >
-              sign up
-            </Button>
-          </CardContent>
-          <CardActions>
-            <Typography>
-              Other sign in method will be available sometime later.
-            </Typography>
-          </CardActions>
-        </Card>
-      </Box>
+              <Button type="submit" variant="contained" sx={{ width: "100%" }}>
+                register
+              </Button>
+            </CardContent>
+            <CardActions>
+              <Typography>
+                Other sign in method will be available sometime later.
+              </Typography>
+            </CardActions>
+          </Card>
+        </form>
+      </ThemeProvider>
     </>
   );
 }

@@ -4,14 +4,11 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-import CssBaseline from "@mui/material/CssBaseline";
-
 import { AppContextProvider } from "./settings/AppContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <AppContextProvider>
-      <CssBaseline />
       <App />
     </AppContextProvider>
   </React.StrictMode>,

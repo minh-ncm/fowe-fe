@@ -13,7 +13,11 @@ import { routerUrls } from "../../settings/urls";
 import { useAppContext } from "../../settings/AppContext";
 
 const menu = [
-  { action: "create", desc: "Write a new blog", icon: <AddBoxIcon /> },
+  {
+    action: "create",
+    desc: "Write a new blog",
+    icon: <AddBoxIcon sx={{ fontSize: "2.5rem" }} />,
+  },
 ];
 const BlogNav = () => {
   const { isLoggedIn } = useAppContext();

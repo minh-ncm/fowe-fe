@@ -2,10 +2,11 @@ import React, { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -15,10 +16,12 @@ import { axiosInstance } from "../../settings/axios";
 import { useAppContext } from "../../settings/AppContext";
 import { color } from "../../settings/color";
 
+import ErrorMessage from "./ErrorMessage";
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isAuthErr, setIsAuthErr] = useState(false);
+  const [errorMessage, setErrorMessage] = useState([]);
   const { setIsLoggedIn } = useAppContext();
   const navigate = useNavigate();
   function sendLoginRequest() {
@@ -37,53 +40,58 @@ const Login = () => {
         navigate(routerUrls.fowe.index);
       })
       .catch(function (error) {
-        if (error.response) {
-          if (error.response.status === 401) {
-            setIsAuthErr(true);
+        const response = error.response;
+        if (response) {
+          switch (response.status) {
+            case 401:
+              setErrorMessage([response.data.detail]);
+              break;
+            case 400:
+              break;
           }
         }
       });
   }
-  function submitHandler(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-    sendLoginRequest();
+    let msg = [];
+    if (username.trim() === "") msg.push("Please enter username");
+    if (password.trim() === "") msg.push("Please enter password");
+    setErrorMessage(msg);
+    if (msg.length === 0) sendLoginRequest();
   }
   return (
     <>
-      <Box
-        sx={{
-          position: "fixed",
-          width: "100%",
-          height: "100%",
-          backgroundColor: color.background.alt1,
-        }}
+      <ThemeProvider
+        theme={(theme) =>
+          createTheme({
+            ...theme,
+            palette: {
+              ...theme.palette,
+              background: {
+                default: color.background.secondary,
+              },
+            },
+          })
+        }
       >
-        <Card
-          sx={{
-            backgroundColor: color.background.secondary,
-            padding: "1.8rem",
-            width: "30rem",
-            borderRadius: "0.4rem",
-            marginTop: "6rem",
-            mx: "auto",
-          }}
-        >
-          <CardContent>
-            <form onSubmit={(e) => submitHandler(e)}>
-              <Typography variant="h5" sx={{ marginBottom: "2rem" }}>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Distinctio, voluptatibus!
+        <CssBaseline />
+        <form onSubmit={handleSubmit}>
+          <Card
+            elevation={2}
+            sx={{
+              padding: "1.8rem",
+              width: "30rem",
+              borderRadius: "0",
+              marginTop: "6rem",
+              mx: "auto",
+            }}
+          >
+            <CardContent>
+              <Typography align="center" variant="h3">
+                Login
               </Typography>
-              <Typography
-                variant="error"
-                sx={{
-                  display: `${isAuthErr ? "block" : "none"}`,
-                  marginBottom: "1rem",
-                  color: color.error.primary,
-                }}
-              >
-                Wrong username or password
-              </Typography>
+              <ErrorMessage messages={errorMessage} />
               <TextField
                 type="text"
                 value={username}
@@ -100,20 +108,18 @@ const Login = () => {
                 }}
                 sx={{ width: "100%", marginBottom: "1rem" }}
               />
-              <Button type="submit" variant="contained" sx={{ width: "100%" }}>
+              <Button variant="contained" type="submit" sx={{ width: "100%" }}>
                 login
               </Button>
-            </form>
-          </CardContent>
-          <CardActions>
-            <Typography>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
-              tempora numquam esse eveniet. Sapiente aut, tenetur assumenda
-              veniam eos eius?
-            </Typography>
-          </CardActions>
-        </Card>
-      </Box>
+            </CardContent>
+            <CardActions>
+              <Typography>
+                Other sign in method will be available later
+              </Typography>
+            </CardActions>
+          </Card>
+        </form>
+      </ThemeProvider>
     </>
   );
 };

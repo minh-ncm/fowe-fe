@@ -30,6 +30,7 @@ const NewsIndex = () => {
   useEffect(() => {
     const url = apiUrls.news + `${source && "?source=" + source}`;
     fetchData(url);
+    return () => setData([]);
   }, [source]);
 
   return (
