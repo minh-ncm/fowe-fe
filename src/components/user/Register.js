@@ -50,10 +50,10 @@ function Register() {
           password: password,
         })
         .then(function (response) {
-          if (response.status === 201) {
-            navigate(routerUrls.user.verify, {
-              state: { usernanme: username },
-            });
+          switch (response.status) {
+            case 201:
+              navigate(routerUrls.user.activate);
+              break;
           }
         })
         .catch((error) => {
