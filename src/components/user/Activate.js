@@ -37,7 +37,12 @@ const Activate = () => {
               break;
           }
         })
-        .catch();
+        .catch((error) => {
+          const response = error.response;
+          if (response) {
+            setErrorMessage([response.data]);
+          }
+        });
     } else {
       setErrorMessage(["Please don't leave empty token"]);
     }
