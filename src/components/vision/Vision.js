@@ -1,13 +1,15 @@
 import React from "react";
 
+import Typography from "@mui/material/Typography";
+
 import Yolo from "./Yolo";
 
-const Vision = () => {
+const VisionIndex = () => {
   return (
     <>
-      <h1>ComputerVision</h1>
+      <Typography variant="h2">Computer Vision</Typography>
       <Yolo />
     </>
   );
 };
-export default Vision;
+export default VisionIndex;

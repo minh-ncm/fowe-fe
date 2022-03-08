@@ -8,7 +8,7 @@ import Landing from "../components/fowe/Landing";
 import Error from "../components/fowe/Error";
 import About from "../components/fowe/About";
 import NewsIndex from "../components/news/NewsIndex";
-import Vision from "../components/vision/Vision";
+import VisionIndex from "../components/vision/Vision";
 import BlogIndex from "../components/blog/BlogIndex";
 import BlogDetails from "../components/blog/BlogDetails";
 import BlogCreate from "../components/blog/BlogCreate";
@@ -27,7 +27,7 @@ const Router = () => {
           <Route path={routerUrls.fowe.about} element={<About />} />
           <Route path={routerUrls.fowe.error} element={<Error />} />
           <Route path={routerUrls.news} element={<NewsIndex />} />
-          <Route path={routerUrls.vision.index} element={<Vision />} />
+          <Route path={routerUrls.vision.index} element={<VisionIndex />} />
           <Route path={routerUrls.blog.index} element={<BlogIndex />} />
           <Route
             path={`${routerUrls.blog.index}/:blogId`}

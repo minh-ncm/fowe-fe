@@ -29,6 +29,9 @@ const apiUrls = {
   blog: {
     crud: domain + "/blog/crud/",
   },
+  vision: {
+    crud: domain + "/vision/",
+  },
 };
 
 export { routerUrls, apiUrls };

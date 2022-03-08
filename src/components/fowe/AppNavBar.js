@@ -35,6 +35,9 @@ const AppNavBar = () => {
             <Button component={RouterLink} to={routerUrls.blog.index}>
               blogs
             </Button>
+            <Button component={RouterLink} to={routerUrls.vision.index}>
+              computer vision
+            </Button>
             <Button component={RouterLink} to={routerUrls.fowe.about}>
               about
             </Button>
